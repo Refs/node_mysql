@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "bookshelf": "^0.13.3",
+    "checkit": "^0.7.0",
     "knex": "^0.13.0",
     "mysql": "^2.15.0"
   },
