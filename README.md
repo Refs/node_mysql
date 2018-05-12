@@ -138,6 +138,8 @@ mysql -u root -p
     + one-to-many
     + many-to-many
 
+    ![](./img-md/many-to-many.png)
+
 11. one-to-one relationship
 
 
