@@ -140,10 +140,33 @@ mysql -u root -p
 
     ![](./img-md/many-to-many.png)
 
-11. one-to-one relationship
+*  one-to-one relationship： is an attribute that describes an entity you can just store it in the same table , you don't have to create a whole another table for it  you can though . Though if you want that separation for some reason ,e.g., you want some data of the user stored in a different table . The only thing you're going to remember is to mark the foreigin key as unique that's because we don't want to have mutiple entries relating back to one entity that would break the rules of one-to-one and that is acturally how you set up a one-to-many relationship
+
+
+* one-to-many : we can store as many rows as we want referencing back to a single entity and that foreign key is not going to be labeled unique . The parent table being referenced doesn't need to know about this other table , you don't have to put any foreign keys in that table to that table that other table donesn't exist . It's just alone by itself , but that table that references  it knows of the parent table 
+
+> in summary one-to-one is just one table. One-to-many is two tables. Many-tomany is three tables
+
+
+#### data integrity
+
+1. entity interity
+
+> entity interity is very simple . All it says is that every table needs a primary key when you label something a primary key . It's automatically going to be unique and not null . Addition to this a primary key should never change  . `Unique` `not null` `never change`
+
+2. There is acturally teo classifications(类别) of primary keys 
+
+* surrogate keys(代理鍵) 
+
+> surrogate key are simple . They just are computer generated numbers that have no real world meaning 
+
+* natural keys 
 
 
 
+2. referential integrity
+
+3. domain integrity
 
 
 
@@ -170,3 +193,6 @@ I know a few of great teachers (e.g., Mary, Sandy, Susan, etc.) (X)
 It happened in August, i.e., two months ago. (O)
 
 ```
+
+写程序分为三个阶段 ： 跑通 --> 健壮 --> 优雅； 
+学习分为三个阶段： 视频 --> 文档 --> 源码  
