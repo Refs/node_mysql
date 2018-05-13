@@ -155,7 +155,7 @@ mysql -u root -p
 
 > entity interity is very simple . All it says is that every table needs a primary key when you label something a primary key . It's automatically going to be unique and not null . Addition to this a primary key should never change  . `Unique` `not null` `never change`
 
-2. There is acturally teo classifications(类别) of primary keys 
+2. There is acturally two classifications(类别) of primary keys 
 
 * surrogate keys(代理鍵) 
 
@@ -167,7 +167,31 @@ mysql -u root -p
 
 2. referential integrity
 
+> When it comes to be referential integrity, it has to fo with foreign keys referencing oter columns . Only have a froeign key we could say " it's a reference to another column " and we need to protect our reference integrity; we need tell the database explictly using the foreign key constraint that what column from what table we are referencing 
+
+> in additional to just tell what is referencing what , we can do stuff such as ON DELETE and ON UPDATE. both is meaning waht happend if we dalete the parent or change the parent to a different ID 
+
+* ON DELETE
+
+* ON UPDATE
+
 3. domain integrity
+
+> domain integrity is essentially when our data fits what is appropriate or what is expected for a certain colmn . This is require us to define what is allowed and what is not allowed . we want to ensure that the data is as close as posiible to what is expected 
+
+> The domain establish what's what is alowed and what is not allowed. so we want to make sure all of our data fit insides of both . 
+
+> 即 在 数据不能偏离我们“想要的模样”太远， 又不能进入“不想要的模样”， 及其只能处在某一个区域中或范围中，这个区域就是一个 domain. 保证数据处在domain 中 就是 domain integrity
+
+![](./img-md/domain-integrity.png)
+
+* Data type
+* NOT NULL
+* UNIQUE
+
+> mysql 不能去做类似于 必须保证数据 处在 5 到 50之间的类似的校验， 一般只能去校验上述三种； 我们一般采取的方式是在程序层面 对数据做校验，以保证我们所存储的data 是我们想要的data;
+
+
 
 
 
