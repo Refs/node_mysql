@@ -304,7 +304,7 @@ Finally, we need to make sure that each attribute   describes the entity.  Every
 2. varchar:  VARCHAR works in a similar fashion to CHAR, but it works best for variable length data. That means when you declare a varchar you declare the max length not the total length for every single value   . That means that if you have a column where each row is going to have a different length, you would want to use VARCHAR.  For example, if you had a column for an email address, each email is going to be any number of characters.
 
 
-> Now, we are going to be going into numeric data types.  For each of the numeric data types there are two variations.  Signed and unsigned.  Signed data types allow for negative values, but the highest value will be lower.  Unsigned do not allow negatives but can store higher positive numbers.
+> Now, we are going to be going into numeric data types.  For each of the numeric data types there are two variations.  `Signed and unsigned`.  Signed data types allow for negative values, but the highest value will be lower.  Unsigned do not allow negatives but can store higher positive numbers.
 
 3. INT is the data type you use when you need whole numbers.  This is likely going to be the data type used for ID columns.  
 
