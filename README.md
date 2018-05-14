@@ -297,6 +297,27 @@ Finally, we need to make sure that each attribute   describes the entity.  Every
 
 ![](./img-md/transitive-dependency-solve.png)
 
+#### Data Type
+
+1. char : is a data type that is known as a fixed length data type and what that means is every single value for a char column is going to be of the same length . You will only want to use this when you know the length of the data for the column.  For example, you might have a column for phone numbers.  As long as you know that every phone number is going to be the same format, you could use a column with the CHAR data type.  You would just specify it as CHAR(length).  
+
+2. varchar:  VARCHAR works in a similar fashion to CHAR, but it works best for variable length data. That means when you declare a varchar you declare the max length not the total length for every single value   . That means that if you have a column where each row is going to have a different length, you would want to use VARCHAR.  For example, if you had a column for an email address, each email is going to be any number of characters.
+
+
+> Now, we are going to be going into numeric data types.  For each of the numeric data types there are two variations.  Signed and unsigned.  Signed data types allow for negative values, but the highest value will be lower.  Unsigned do not allow negatives but can store higher positive numbers.
+
+3. INT is the data type you use when you need whole numbers.  This is likely going to be the data type used for ID columns.  
+
+4. DOUBLE is the data type that can be used when you need to store a real number.  This means that there can be numbers after a decimal point.  There is also a data type called FLOAT.  This works similarly but cannot handle as many numbers after the decimal.  These data types have the downside in that they often cannot be trusted when doing math.  Only use DOUBLES for data where it is acceptable to be pretty close to correct.
+
+5. DECIMAL is a datatype that can be used for numbers where precision is extremely important.  For example, Decimal can be used for columns dealing with money, important measurements, or anything where we need the data to work 100% as expected in arithmetic. 
+
+6. TIMESTAMP is a column that is used to easily record an instance in time.  This is often used to record when  row  is created or updated.  That's because it will automatically generate a value when an INSERT or UPDATE is issued against the database.  
+
+7. DATE, DATETIME, and TIME are all used to store dates and times.  There are some differences between these and a TIMESTAMP, but I'll just give you one for now to tease you  To understand the differences between these and the timestamp, you need to understand something known as UTC time.  UTC time is a standard that you can compare against all time zones.  It is known as coordinated universal time.  So for example, PST is 8 hours behind UTC.  The different between TIMESTAMP and these is that TIMESTAMP will convert whatever value to UTC when stored, and convert it back to whatever your time zone is when you retrieve it.  This means that if you want to store a date that is going to change to the users time zone when retrieved, use TIMESTAMP.  If it needs to stay the same no matter what, use DATETIME.  If that's not super clear, we'll try to discuss it in more detail in an upcoming video.
+
+
+
 
 
 
