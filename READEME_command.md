@@ -1,0 +1,2 @@
+# Mysql Tutorial from Terminal
+
