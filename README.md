@@ -214,6 +214,90 @@ mysql -u root -p
 
 #### ON DELETE and ON UPDATE
 
+1. ON DELETE
+
+> ON DELETE is essentially a way we can config the way our foreign keys work and it mainly points to what happends when we delete the parent row fererenced by the FK, what happends to the child. There are acturally four options with MYSQL:  default option is RESTRICT
+
+* RESTRICT: is literally going to prevent us from deleting the parent. So if we go and delete the parent row you are going to get an error and MYSQL is not going to let us do that ;
+
+* CASCADE: will acturally send the same command down to the child and delete the child , So if we delete the parent row , the child row will be deleted as well 
+
+* NO ACTION: is just another name for RESTRICT , but is not always the same thing in different datbase management , but in mysql thry're the same thing;
+
+* SET NULL: if we delete the parent , the clumn in the child referencing the parent row will be setted to be null. It might be useful is we want to be able to delete the parent but we don't want to delete the child 
+
+2. ON UPDATE
+
+> the reason on `ON UPDATE` is used less  is that primary key are not support to change . So it is onle useful when we're referencing unique data that's not primary kay .
+
+> FK can reference a unique clumn , bu the unique column doesn't have to be primary key 
+
+主要是关注 被引用的column 的值发生改变的会对FK 产生什么样的影响； 如 引用的userID 是8;
+我们在父表上将 原想 userID 为 8 的行，中的userID 字段改为 7； 而由于 userID 一般为primary key , 不允许更改，所以ON UPDATE 平时运用的不多；
+
+#### Normalization
+
+> normalization is a process we go through when we're designing a database to help make sure our database has the right structure .
+
+> Normalization has three steps: 1nf, 2nf, and 3nf.  These stand for first normal form, second normal form, and third normal form.  Each step has rules on what is allowed or not allowed in our database design.  Each normal form gets progressively more strict.  
+
+> Each normal form has to have the previous one done , that is 4nf require the 1nf and 2nf to be done.
+
+
+
+
+* how do these normal forms work? how do they acturally improve our database structure ?
+
+the primary way they help us is by getting rid of redundancy(冗余). Redundancy is when we have someting in a database more than once .
+
+
+1. 1NF (first normal form)
+
+> first normal form is first layer of nomalization , it gets rid of the most obvious and the  most simple mistake in our database design . first normal form really focuses on things being atomic or sigularity 
+
+```
+First normal form (1NF) is the first layer of database normalization.  The focus of 1NF is atomicity (singularity).  Every column needs to hold only one attribute and only one value for that attribute.  This means that columns should not be plural.  Additionally, one entity can take up only one row and one row can describe at max one entity.  
+
+In our example, we had a column called social_networks.  This implies that multiple values can be inserted per row.  To fix this, we can make it singular.  The downside to this is that you are limited to just one value for that column.  If you wanted to have two or more social networks you have to add a table with a foreign key that references the user_id.  This allows multiple social networks because multiple rows in the network table can reference a single user.  
+
+Finally, we need to make sure that each attribute   describes the entity.  Every column needs to describe the key.
+
+```
+
+> 注解1 `sigularity`： 一个column 中只能去存放有一个值， 若存有多个值，就考虑将 多个值存到另外一张表中，然后在表中相应的值的行中 去新建一个 FK 去引用 原表中的 column ; 多个值 可以去引用同一个 column ; 形成 one-to-many 的结构；one 是 parent row , many 是 child row ; 注意方向； 这也是 one-to-many 一般是两张表的原因 
+
+> 注解2 one entity can take up only one row and one row can describe at max one entity.  
+
+> 总结： 一个列中 只能有一个值  （需要存放多个值时，需要转化为one-to-many的形式，即两张表）： 一个行中 只能去描述一个entity;   everything inside a first normal form you could cummarize it as every column describr the key , and every column describes it singularly, so each column is individual and there is no repeating rows 
+
+
+2. 2NF  emands that we remove all partial dependencies. 
+
+* dependency :  is when something depends on something else and in databse that would be like an attribute describing an entity. So if we have an entity we have attributes that describe this entity. We can say the attributes depends on the entity . The deoendency means when the thing we're talking about changes, the data describing it will also change.
+
+* the 2NF discuses a type of dependency known as partial dependencies . 
+
+* `Partial dependencies` come in when we have compound or primary keys. A composite key is a key that consists of multiple columns . let's consume we have another column that depends on the primary key which consist of  multiple columns , it has to depend every column of the composite key . if for any reason it only depends on one of the column  we have what's known as a partial dependency    
+
+* we will most often see second normal form come up when we have a many-to-many relationship . In our bidding website example, we have a users table, a listings table, and a user_listings table.  The primary key in the user_listings table is the combination of a user and a listing id.  That's because it is an associate between a user and a listing.  Because we have a composite primary key in the user_listings table, we have to make sure that any additional columns depend on both of the columns in the composite key. The example I use in this video is the listing_date that is improperly placed inside of the user_listing table.  `We get rid of this column and put it in the listings table.` ( 之所以这样做是因为，listing_data 只依赖与composite key 中的listing id, 而不依赖于 user id , 这就造成 patial dependency 的现象， 而 2NF 推荐的避免方式是，既然 listing_data 只依赖 list id ,  就将listing_data 从 user_listings table 单独的拿出去，放到listings table 中)
+
+* what kind of data would be approciate in the user_listing table , we need to find some kind of data that dapends on user Id and the listing ID that means the data in here only describes the association between the user and the listing . So an example of a column might be the percentage of income when the item is sold
+
+![](./img-md/2NF.png)
+
+3. 3NF 
+
+> 3NF is going to be the most strict that's because second normal form and dirst normal form have to be done and it's going to have some of its own rules .
+
+![](./img-md/transitive-dependency.png)
+
+* transitive dependency ： The odd thing though about this column is it's a type of dependency known as a transitive dependency . What that means it it depends on the primary key through another column . So it acrually depends on this category which depends on the listing_id （即虽然上图中 category-description 依赖于 listing-id , 但其同时也依赖于 category , 或者欢聚话说，其之所以会依赖listing-id 是 通过 category 产生的， A transitive dependency exists when a column depends on the primary key through another column. ）
+
+* 3NF says we're not allowed to have transitive dependencies. We need to make this column depend only on the primary key, so to do this we need to move some stuff to a new table.  
+
+![](./img-md/transitive-dependency-solve.png)
+
+
 
 
 
