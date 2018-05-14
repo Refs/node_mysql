@@ -191,6 +191,28 @@ mysql -u root -p
 
 > mysql 不能去做类似于 必须保证数据 处在 5 到 50之间的类似的校验， 一般只能去校验上述三种； 我们一般采取的方式是在程序层面 对数据做校验，以保证我们所存储的data 是我们想要的data;
 
+#### AUTO_INCREMENT
+
+
+* compound or composite key
+
+> a composite key is a key that consists of multiple columns and that reason you do this is if you need to figure out a way to make the row unique and one ID or column is not enough to do it . You will often see this inside of an intermediary(中间人) table (many-to-many situation)
+
+
+#### Column attribute related to foreign keys
+
+> foreign keys reference primary key . When we make a call on foreign key we are saying every single value in this column has to be a value that exists and whatever column or referencing .
+
+> a foreign key has to reference a column that is unique 
+
+> rather than having tables reference this way it's to rotate the whole thing and create parents children . So the foreign key down here is the child pk 
+
+> 注意转变一个认知 ， 被引用的row 是 parent row ， 而 主动引用的row 是 child row ;  when we reference a column using a foreign key, we create what is known as a parent-child relationship.  The column the foreign key is referencing is known as the parent and the foreign key is known as the child. 
+ 
+
+![](./img-md/foreign-key.png)
+
+#### ON DELETE and ON UPDATE
 
 
 
