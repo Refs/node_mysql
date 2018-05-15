@@ -265,4 +265,70 @@ WHERE teams_tbl.team_id = results_tbl.team_id;
 
 ##  The DELETE Statement/Query/Command
 
+```bash
+# syntax 
+DELETE FROM table_name [WHERE Clause];
+
+# delete everything in the table without [WHERE Clause]
+DELETE FROM table_name;
+
+# e.g.
+DELETE FROM results_tbl WHERE result_id=5;
+
+```
+
+## The UPDATE Statement/Query/Command
+
+> Update an already existing table or modify some data inside it ;
+
+```bash
+# syntax 
+UPDATE table_name SET filed1=new-value1, field2=new-value2 [WHERE Clause]
+
+# e.g.
+UPDATE teams_tbl SET captain_name = "Alan Matthews" WHERE team_name="Uxbridge UTD";
+
+UPDATE results_tbl SET result_type="Loss" WHERE result_id=3;
+
+
+```
+
+## The LIKE Clause
+> what if we only know a part of a value , and with the partial to SELECT records;
+
+```bash
+# syntax
+SELECT field1, field2, ....fieldN FROM table_name1, table_name2.... 
+WHERE field1 LIKE condition1 [ AND [OR] ] condition2
+
+# e.g.
+# The percentage sign is a meta character that means give me anything that has the word 'lvj' ; equal to '*lvj' in the regular expression;
+SELECT * from teams_tbl WHERE caption_name LIKE '%lvy';
+
+```
+
+## Using REGEXP - Regular Expressions
+
+> to use the regular expressions to do partial string matching 
+
+```bash
+# Query to find all the teams starting with 'L'
+SELECT team_name FROM teams_tbl WHERE team_name REGEXP '^L';
+
+# Query to find all the teams ending with 'UTD'
+SELECT team_name FROM teams_tbl WHERE team_name REGEXP 'UTD$';
+
+# Query to find all the names, which contain 'on'
+SELECT team_name FROM teams_tbl WHERE team_name REGEXP 'on';
+
+# Query to find all the names starting with a vowel and ending with 'UTD'
+SELECT team_name FROM teams_tbl WHERE team_name REGEXP '^[e]|UTD$'
+
+
+```
+
+
+
+
+
 
