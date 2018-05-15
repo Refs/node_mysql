@@ -120,3 +120,29 @@ DROP DATABASE my_database
 
 
 ```
+
+## Mysql Data Type
+
+
+## Creating & Deleting Tables
+
+```bash
+# e.g.
+CREATE DATABASE teams_db;
+USE teams_db;
+
+# Create 
+CREATE TABLE table_name (column_name column_type);
+# e.g.
+CREATE TABLE teams_tbl
+(
+	team_id INT NOT NULL AUTO_INCREMENT,
+	team_name VARCHAR(100) NOT NULL,
+	team_captain VARCHAR(40) NOT NULL,
+	establishment_date DATE,
+	PRIMARY KEY (team_id)
+);
+
+
+```
+
