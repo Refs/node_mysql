@@ -141,8 +141,52 @@ CREATE TABLE teams_tbl
 	team_captain VARCHAR(40) NOT NULL,
 	establishment_date DATE,
 	PRIMARY KEY (team_id)
-);
+);     
 
+# remove
+DROP TABLE table_name;
+
+# Showing Struture of Tables
+SHOW COLUMNS FROM table_name;
+DESCRIBE table_name;
+
+# inserting Data into Tables
+INSERT INTO table_name ( field1, field2, ....fieldN )
+VALUES ( value1, value2, ...valueN );
+
+# view all data in the table
+SELECT * from table_name;
 
 ```
+
+## The SELECT Statement/Query/Command
+
+```bash
+# SELECT what ro select FROM table(s) [WHERE condition that the data must satisfy]
+# Comparison operators are: < <= = != >= >
+# Logical operator are: AND OR NOT 
+# Comparison operator for special value NULL : IS
+
+#  查看表中的所有行
+SELECT * from table_name;
+
+# 查看表的所有record 中的某几个field
+SELECT team_id, team_captain FROM teams_tbl;
+
+#  查看满足condition的record 所有 columns
+SELECT * FROM president WHERE team_comptain="Joe williams";
+
+# What if I want to make things a little bit more interesting I can say ,e.g., give me a list if all the teams which were established for example after 2008  
+# 查看指定时间之后的所有record 
+SELECT * FROM teams_tbl WHERE establishment_date > '2018-5-15';
+
+# if we want to allow some values to have null value then when we acturally filter out for them and use
+# 处理值为 null 的情况 ,  需要使用 IS 关键字，而不是 =
+SELECT * FROM teams_tbl WHERE  establishment_date = NULL; (X)
+SELECT * FROM teams_tbl WHERE establishment_date IS NULL; (v)
+
+```
+
+
+
 
