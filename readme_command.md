@@ -185,8 +185,84 @@ SELECT * FROM teams_tbl WHERE establishment_date > '2018-5-15';
 SELECT * FROM teams_tbl WHERE  establishment_date = NULL; (X)
 SELECT * FROM teams_tbl WHERE establishment_date IS NULL; (v)
 
+# we can use more than one condition at the same time. This is very useful sometimes when you have some data repeated in the same table 
+# syntax: 
+SELECT field1, field2, ...fieldN FROM table_name1, table_name2... [WHERE condition1 [AND [OR] ] condition2 ...]
+# example 1: 多条件查询
+SELECT * FROM teams_tbl WHERE establishment_date IS NULL AND team_name = 'RNG' ;
+
 ```
 
+## More on SELECT - DATE, ORDER, GROUP BY
 
+```bash
+# 查看最近三年的数据
+# teams which were established in the last 3 years
+# YEAR() function which extracts the year part from the date  
+SELECT * FROM teams_tbl WHERE ( YEAR(NOW()) - YEAR(establishment_date) ) < 3;
+
+# we can order the table ascendently and choose the first record only; so we can limit the number of rows that are coming back as the result of our select statement. 
+# ASC 升序 日期最前的在最上  
+# DESC 降序
+# LIMIT 1: only one record  限制 打印条数
+#-------------------------------------------------------------
+# 按日期先后 打印 所有record
+SELECT * FROM teams_tbl ORDER BY establishment_date ASC；
+# 按日期先后 只打印最上面的一条 record
+SELECT * FROM teams_tbl ORDER BY establishment_date ASC LIMIT 1; 
+
+#  we said we have a miastake and we have teo teams with the exact same team_captain . Well we can acturally use the key words GROUP BY which will group them and only give us one of them;
+#---------------------------------------------------
+# GROUP BY team_captain : 相同的team_captain 的条目 会合为一个record; 具体会展示 哪一条， 会根据排序来
+# ORDER BY team_name DESC ： 按 名称 首字母来降序， z 最上 a 最下
+SELECT * FROM teams_tbl GROUP BY team_captain ORDER BY team_name DESC LIMIT 3;
+
+```
+
+## More on SELECT - querying multiple tables
+
+* create another table results_tbl
+
+```bash
+CREATE TABLE results_tbl
+(
+	result_id INT NOT NULL AUTO_INCREMENT,
+	team_id INT NOT NULL,
+	result_type VARCHAR(4) NOT NULL,
+	game_date DATE,
+	PRIMARY KEY (result_id)
+); 
+
+```
+* insert records 
+
+```bash
+# results_tbl 主要是用来记录队伍比赛记录的表格 draw：平局 loss: 失败 win: 胜利
+INSERT INTO results_tbl 
+(
+	team_id,
+	result_type,
+	game_date
+)
+VALUES
+(
+	2,
+	'draw',
+	2015-03-07
+);
+# team_id 为 2的 队伍，2015-03-07 的比赛记录为`平局` 
+
+```
+
+* query results_tbl and teams_tbl at the same time
+
+```bash
+# 打印 队伍比赛的信息 
+SELECT team_name, result_type, game_date FROM teams_tbl, results_tbl 
+WHERE teams_tbl.team_id = results_tbl.team_id; 
+
+```
+
+##  The DELETE Statement/Query/Command
 
 
