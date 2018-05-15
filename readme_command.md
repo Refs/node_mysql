@@ -321,7 +321,7 @@ SELECT team_name FROM teams_tbl WHERE team_name REGEXP 'UTD$';
 # Query to find all the names, which contain 'on'
 SELECT team_name FROM teams_tbl WHERE team_name REGEXP 'on';
 
-# Query to find all the names starting with a vowel and ending with 'UTD'
+# Query to find all the names starting with a vowel or ending with 'UTD'
 SELECT team_name FROM teams_tbl WHERE team_name REGEXP '^[e]|UTD$'
 
 
