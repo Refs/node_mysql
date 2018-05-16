@@ -374,6 +374,99 @@ ALTER TABLE crowds_tbl RENAME TO fans_tbl;
 
 ```
  
+## PRIMARY KEY vs INDEX
+
+1. The different between the primary key and index:
+
+* THe Primary key is a logical object. It simply define a set of properties on one column or a set of coulmns to require that columns which make up the primary key are unique and that non of the are null.
+
+* Because they are unique and not null, these values(or value if you primary key is a single column) can be used to identify a single row in the table every time.
+
+*  In most if not all database platforms the primary key will have an index created on it.
+
+* An index on the other hand doesn't define uniqueness.
+
+* An index is used to more quickly find rows in the table based on the values which are part of the index.
+
+* When you create an index within the database, you are creating a physical object which is being saved to disk.
+
+> Instead of our database engine loading the whole table in memory then looking up the data that's required in  the conditions of that statement , what the database engine will do is it will only load the index object taht we create . Remember we said this physical object . that will peed things up
+
+> The drawback is that the update statement will become slower . This is because whenever we update the table then we need to update the index  
+
+
+##  Creating Table INDEX - More on ALTER
+
+```bash
+# syntax
+# with unique index two rows will not have the same index value; if we don't use the UNIQUE key words that means we are haveing a simple index and with a simple index duplicate values are allowed 
+CREATE [UNIQUE] INDEX  index_name ON table_name (column1, column2, ...);
+ 
+CREATE UNIQUE INDEX EST_DATE_INDEX ON teams_tbl (establishment_date);
+
+# syntax2
+# add primary key with ALTER command
+ALTER TABLE tbl_name ADD PRIMARY KEY (column_list);
+
+# add index with ALTER command
+ALTER TABLE tbl_name ADD UNIQUE index_name (column_list);
+ALTER TABLE tbl_name ADD INDEX index_name (column_list);
+
+```
+
+## Using Temporary Tables
+
+```bash
+# utilize the TEMPORARY key to establish a temporary table;
+CREATE TEMPORARY TABLE crowds_tbl (
+	game_id INT NOT NULL,
+	game_date DATE NOT NULL,
+	crowd_count INT NOT NULL,
+	total_sales DOUBLE(12,2) NOT NULL DEFAULT 1.00
+);
+
+INSERT INTO crowds_tbl(
+	game_id, game_date, crowd_count, total_sales
+) VALUES(
+	21, '2017-07-11', 3352, 144525.20
+);
+
+```
+
+## Cloning Tables
+
+1. clone the table structure
+
+```bash
+# generate create command
+# \g 等价于 ';' 即使用 \g statement 末尾不需要添加 ; mysql 就知道 语句已经结束；
+# \G 意思是使 输出结果 90度 反转； 语句末尾同样 不需要去使用 ';' 否则会报错；
+SHOW CREATE TABLE 'teams_tbl' \G
+# -- CREATE TABLE `teams_tbl` (
+# --   `team_id` int(11) NOT NULL AUTO_INCREMENT,
+# --   `team_name` varchar(100) NOT NULL,
+# --   `team_captain` varchar(40) NOT NULL,
+# --   `establishment_date` date DEFAULT NULL,
+# --   PRIMARY KEY (`team_id`)
+# -- ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1
+
+# 将上述的语句 在 控制台上输入一遍， 并将table_name 改一下， 就生成了一张新表 并且信标的额结构与被复制表的结构一致，但没有数据；
+
+```
+
+2. inject the data to the new table
+
+```bash
+INSERT INTO new_table_name (
+	# all the columns in the table copied;
+	team_id, team_name, team_captain, establishment_date
+) SELECT * FROM old_table_name; 
+
+```
+
+## Export using SELECT
+
+
 
 
 
