@@ -1,5 +1,14 @@
 # Mysql tutorial from command
 
+
+## navicat use
+
+### Using Navicat Code Snippets
+
+> https://www.navicat.com/en/company/aboutus/blog/693-using-navicat-code-snippets.html
+
+
+
 ## important terms 
 
 1. Database : is a collection of tables where the data is stored in a systematic format 
@@ -327,7 +336,44 @@ SELECT team_name FROM teams_tbl WHERE team_name REGEXP '^[e]|UTD$'
 
 ```
 
+## The ALTER Command
 
+> ALTER is a command that we sometimes use whenever we want to modify am existing table. So sometings one wants to a name of a table or maybe change a field or maybe add or delete an exsiting column or field in a table . The command you will use is the ALTER command. 
+
+```bash
+# CREATE a new table
+CREATE TABLE crowds_tbl (
+	game_id INT NOT NULL,
+	game_date DATE NOT NULL,
+	crowd_count INT NOT NULL,
+	total_sales DOUBLE(12,2) NOT NULL DEFAULT 0.00
+);
+
+# DROP a column within the crowds_tbl
+ALTER TABLE crowds_tbl DROP game_date;
+
+# ADD a column within the crowds_tbl
+ALTER TABLE crowds_tbl ADD date_of_date DATE NOT NULL;
+
+#------------lication -------------
+# Place a column in a specific place
+# ADD a column and place it in the FIRST;
+ALTER TABLE crowds_tbl ADD game_date DATE NOT NULL FIRST;
+
+# ADD a column and place it AFTER a specific column;
+ALTER TABLE crowds_tbl DROP game_date;
+ALTEr TABLE crowds_tbl ADD game_date DATE NOT NULL AFTER game_id;
+
+#------------type-----------------
+# MODIFY a column's type
+ALTER TABLE crowds_tbl ADD myclomn DATE NOT NULL;
+ALTER TABLE crowds_tbl MODIFY mycolumn CHAR(10);
+
+# rename the table
+ALTER TABLE crowds_tbl RENAME TO fans_tbl;
+
+```
+ 
 
 
 
