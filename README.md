@@ -320,7 +320,9 @@ Finally, we need to make sure that each attribute   describes the entity.  Every
 
 
 
+> That method returns the type of relationship, this model shares with the assocaite model. 
 
+> That method returns the type of relationship this model shares with the associated model. In this case our 'Address' belongs to a 
 
 
 
