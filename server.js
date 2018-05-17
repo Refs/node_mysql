@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var port = process.env.PORT || 8001;
+var port = process.env.PORT || 8000;
 var knex = require('./db/knex');
 
 var app = express();
@@ -8,7 +8,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/todos', function(req,res) {
+app.get('/todos/:id', function(req,res) {
     // knex.raw(
     //     'SELECT * FROM todos'
     // )
@@ -25,7 +25,7 @@ app.get('/todos', function(req,res) {
     //     .then(function(todos) {
     //         res.send(todos);
     //     })
-    knex.select().from('cards').where('CardID', 1)
+    knex.select().from('users').where('id', req.params.id)
         .then(function(todo) {
             res.send(todo);
         })
@@ -42,8 +42,8 @@ app.post('/todos', function(req, res) {
     //     res.send(todos);
     // })
     knex('todos').insert({
-        title: "go play some chortcut sports...whatever that means",
-        user_id: 1
+        title: req.body.title,
+        user_id: req.body.user_id
     })
     .then(function() {
         return knex.select().from('todos')
@@ -51,6 +51,24 @@ app.post('/todos', function(req, res) {
     .then(function(todos) {
         res.send(todos)
     })
+})
+
+app.put('/todos/:id', function(req,res) {
+    // knex.raw(
+    //     'UPDATE todos SET ' + req.body.field +  '= ? WHERE id = ?',
+    //     [req.body.value, req.params.id]
+    // )
+    knex('todos').where('id', req.params.id)
+                 .update({
+                     title: req.body.title,
+                     completed: req.body.completed
+                 })
+                 .then( function(){
+                     return knex.select().from('todos')
+                 })
+                 .then(function(todos) {
+                     res.send(todos);
+                 })
 })
 
 

@@ -373,6 +373,24 @@ ALTER TABLE crowds_tbl MODIFY mycolumn CHAR(10);
 ALTER TABLE crowds_tbl RENAME TO fans_tbl;
 
 ```
+
+### Rename a column in MySQL
+
+> https://stackoverflow.com/questions/30290880/rename-a-column-in-mysql
+
+```bash
+# Use the following query:
+ALTER TABLE tableName CHANGE `oldcolname` `newcolname` datatype(length);
+
+# The RENAME function is used in Oracle databases.
+ALTER TABLE tableName RENAME COLUMN "oldcolname" TO "newcolname" datatype(length);
+# Notice the backticks used for MySQL, whereas double quotes are used for Oracle's syntax
+```
+
+> Can you have columns with the same name - or why does the datatype it was have to be specified?
+
+> CHANGE changes the column on a table and its type. The MYSQL docs state: Attributes present in the original definition but not specified for the new definition are not carried forward.. Meaning you have to specify the table definitions or they will not be used for that column. `If you only want to change a column's datatype, simply leave out the newcolname`
+
  
 ## PRIMARY KEY vs INDEX
 

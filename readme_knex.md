@@ -214,7 +214,7 @@ app.listen(port, function() {
 
 ```js
 // server.js
-app.get('/todos', function(req,res) {
+app.get('/todos/:id', function(req,res) {
     // knex.raw(
     //     'SELECT * FROM todos'
     // )
@@ -222,20 +222,21 @@ app.get('/todos', function(req,res) {
     //     res.json(todos[0]);
     // })
     // knex.raw(
-    //     'SELECT * FROM todos where id = 1'
+    //     'SELECT * FROM todos WHERE id = 1'
     // )
-    // .then(function(todos){
-    //     res.json(todos[0]);
+    // .then (function(todo) {
+    //     res.send(todo[0]);
     // })
     // knex.select().from('todos')
-    //     .then( function(todos) {
+    //     .then(function(todos) {
     //         res.send(todos);
     //     })
-      knex.select().from('todos').where('id', 1)
+    knex.select().from('users').where('id', req.params.id)
         .then(function(todo) {
             res.send(todo);
         })
 })
+
 
 //  下面的方式 与上面的方式相比，在于其已经将查询返回的 'todos' 格式处理好了， 我们直接将结果返回给前台就可以了；
 
@@ -255,8 +256,8 @@ app.post('/todos', function(req, res) {
     //     res.send(todos);
     // })
     knex('todos').insert({
-        title: "go play some chortcut sports...whatever that means",
-        user_id: 1
+        title: req.body.title,
+        user_id: req.body.user_id
     })
     .then(function() {
         return knex.select().from('todos')
@@ -266,4 +267,9 @@ app.post('/todos', function(req, res) {
     })
 })
 
+
 ```
+
+### update table's data
+
+
