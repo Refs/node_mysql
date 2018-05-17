@@ -31,6 +31,27 @@ app.get('/todos', function(req,res) {
         })
 })
 
+app.post('/todos', function(req, res) {
+    // knex.raw(
+    //     'INSERT INTO todos (title, user_id) VALUES  (?,?)',
+    //     ['go play some sports', '1']
+    // ).then(function (){
+    //     return knex.select().from('todos')
+    // })
+    // .then (function (todos){
+    //     res.send(todos);
+    // })
+    knex('todos').insert({
+        title: "go play some chortcut sports...whatever that means",
+        user_id: 1
+    })
+    .then(function() {
+        return knex.select().from('todos')
+    })
+    .then(function(todos) {
+        res.send(todos)
+    })
+})
 
 
 app.listen(port, function() {

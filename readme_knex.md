@@ -208,7 +208,9 @@ app.listen(port, function() {
 
 ```
 
-## establish route
+## establish route 
+
+### query spec row form spec table
 
 ```js
 // server.js
@@ -236,5 +238,32 @@ app.get('/todos', function(req,res) {
 })
 
 //  下面的方式 与上面的方式相比，在于其已经将查询返回的 'todos' 格式处理好了， 我们直接将结果返回给前台就可以了；
+
+```
+
+### INSERT data into a table
+
+```js
+app.post('/todos', function(req, res) {
+    // knex.raw(
+    //     'INSERT INTO todos (title, user_id) VALUES  (?,?)',
+    //     ['go play some sports', '1']
+    // ).then(function (){
+    //     return knex.select().from('todos')
+    // })
+    // .then (function (todos){
+    //     res.send(todos);
+    // })
+    knex('todos').insert({
+        title: "go play some chortcut sports...whatever that means",
+        user_id: 1
+    })
+    .then(function() {
+        return knex.select().from('todos')
+    })
+    .then(function(todos) {
+        res.send(todos)
+    })
+})
 
 ```
