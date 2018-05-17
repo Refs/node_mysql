@@ -93,6 +93,11 @@ table.integer('parentid').unsigned().references('id').inTable('parent');
 
 ```
 
+> 因为 mysql 在创立外键的时候，必须要保证，外键所在的column 与 被引用的 column的类型完全一致，否则便创建不了。 即这一步若失败，则自己应该去navicat 中去仔细的看一下，两者是否是完全匹配的；
+
+
+2. Create migration file and run it 
+
 ```bash
 npx knex migrate:make create_users_and_todos_tables
 
@@ -141,5 +146,11 @@ knex migrate:rollback
 ```
 
 ## make our seeds --  the random test data
+
+```bash
+knex seed:make 01_users
+knex seed:make 01_todos
+
+```
 
 
