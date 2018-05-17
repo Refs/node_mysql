@@ -83,25 +83,28 @@ npx knex migrate:make create_users_and_todos_tables
 ```
 
 ```js
-// 20180517115054_create_users_and_todos_table.js 中
+
+// Assuming you might be using mysql, you need to specify that the UserId is .unsigned()
+
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('users', function (table){
-      table.increments();
-      table.string('name').notNullable();
-      table.string('email').notNullable();
-      table.timestamp('create_at').defaultTo(knex.fn.now());
-      table.timestamp('update_at').defaultTo(knex.fn.now());
-  })
-  .createTable('todos', function(table) {
-      table.increments();
-      table.timestamp('create_at').defaultTo(knex.fn.now());
-      table.timestamp('update_at').defaultTo(knex.fn.now());
-      table.string('title').notNullable();
-      table.boolean('complated').notNullable().defaultTo(false);
-      
-      // create a freign key that is going to tie it to the users table 
-      table.integer('user_id').references('id').inTable('users');
-  })
+  return knex.schema.
+    createTable('users', function (table){
+        table.increments('id').primary();
+        table.string('name').notNullable();
+        table.string('email').notNullable();
+        table.timestamp('create_at').defaultTo(knex.fn.now());
+        table.timestamp('update_at').defaultTo(knex.fn.now());
+    })
+    .createTable('todos', function(table) {
+        table.increments('id').primary();
+        table.timestamp('create_at').defaultTo(knex.fn.now());
+        table.timestamp('update_at').defaultTo(knex.fn.now());
+        table.string('title').notNullable();
+        table.boolean('complated').notNullable().defaultTo(false);
+
+        // foreign key : Assuming you might be using mysql, you need to specify that the UserId is .unsigned()
+        table.integer('user_id').unsigned().references('id').inTable('users');
+    })
 };
 
 exports.down = function(knex, Promise) {
@@ -109,8 +112,41 @@ exports.down = function(knex, Promise) {
                       .dropTable('users');
 };
    
+```
+
+```bash
+# 运行 migration 使文件生效-----在数据库中，生成相应的 columns 实际上运行的是 exports.up function
+knex migrate:latest
+
+# 撤销更改 实际上运行的是 export.down function
+knex migrate:rollback
+
+
+```
+
+## make our seeds --  the random test data
 
 
 
+Assuming you might be using mysql, you need to specify that the UserId is .unsigned()
 
+You also shouldn't need that defer there, you can just return the knex.schema.createTable.
+
+```js
+exports.up = function(knex, Promise) {
+  return knex.schema.createTable('User',function (table){ 
+      table.increments('UserId').primary();
+      table.string('username');
+      table.string('email',60);
+      table.string('password',65);
+      table.timestamps();
+  })
+  .then(function () {
+    return knex.schema.createTable('Comment',function(table){
+      table.increments('CommentId').primary();
+      table.string('Comment');
+      table.integer('UserId',11).unsigned().inTable('User').references('UserId');
+    });     
+  });
+};
 ```
