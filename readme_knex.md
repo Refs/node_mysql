@@ -147,10 +147,37 @@ knex migrate:rollback
 
 ## make our seeds --  the random test data
 
+1. generate seed.js file
+
 ```bash
 knex seed:make 01_users
-knex seed:make 01_todos
+knex seed:make 02_todos
 
+# this will generate .seeds/development/01_users.js, in which we can put test data 
+```
+> 注意seed file的命名都是有讲究的，因为 users 是父表， 需要先去运行， 而 todos 是子表， 需要后去运行， 所以我们就通过控制命名方式，来控制 seed file的运行顺序； 否则会报 外键的错误；
+
+
+2. config seed
+
+```js
+// .seeds/development/01_users.js
+exports.seed = function(knex, Promise) {
+  // Deletes ALL existing entries
+  return knex('users').del()
+    .then(function () {
+      // Inserts seed entries
+      return knex('users').insert([
+        { id: 1, name: 'Some Guy', email: 'test1@test.com'},
+        { id: 2, name: 'Some Girl', email: 'test2@test.com'},
+        { id: 3, name: 'Somone Else', email: 'test3@test.com'}
+      ]);
+    });
+};
 ```
 
+3. run seed cli
 
+```bash
+knex seed:run
+```
