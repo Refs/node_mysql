@@ -77,6 +77,22 @@ module.exports = require('knex')(config);
 
 ## make our migrations
 
+1. Create a FK
+
+```bash
+# In order to get this work, I had to do the following:
+
+# 1. Create the parent tables first, then create the child tables (parallel issue mentioned above)
+# 2. I'm using table.increments('id') to create the primary key of the parent tables, and this creates them as unsigned auto_increment integers.
+# 3.  To have it actually create the foreign key, I had to something like:
+table.integer('parentid').unsigned().references('id').inTable('parent');
+
+# Where parentid is the field in the child table that should reference the field id in the parent table.
+
+# The unsigned part in step 3 was key. MySql wouldn't create the foreign key if the type didn't match, and it also seemed to silently fail in that case, though that could be a problem with my error handling.
+
+```
+
 ```bash
 npx knex migrate:make create_users_and_todos_tables
 
@@ -127,26 +143,3 @@ knex migrate:rollback
 ## make our seeds --  the random test data
 
 
-
-Assuming you might be using mysql, you need to specify that the UserId is .unsigned()
-
-You also shouldn't need that defer there, you can just return the knex.schema.createTable.
-
-```js
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('User',function (table){ 
-      table.increments('UserId').primary();
-      table.string('username');
-      table.string('email',60);
-      table.string('password',65);
-      table.timestamps();
-  })
-  .then(function () {
-    return knex.schema.createTable('Comment',function(table){
-      table.increments('CommentId').primary();
-      table.string('Comment');
-      table.integer('UserId',11).unsigned().inTable('User').references('UserId');
-    });     
-  });
-};
-```
