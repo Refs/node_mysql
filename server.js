@@ -15,9 +15,19 @@ app.get('/todos', function(req,res) {
     // .then(function(todos){
     //     res.json(todos[0]);
     // })
-    knex.select().from('todos')
-        .then(function(todos) {
-            res.send(todos);
+    // knex.raw(
+    //     'SELECT * FROM todos WHERE id = 1'
+    // )
+    // .then (function(todo) {
+    //     res.send(todo[0]);
+    // })
+    // knex.select().from('todos')
+    //     .then(function(todos) {
+    //         res.send(todos);
+    //     })
+    knex.select().from('cards').where('CardID', 1)
+        .then(function(todo) {
+            res.send(todo);
         })
 })
 
