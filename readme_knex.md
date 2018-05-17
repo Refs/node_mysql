@@ -1,6 +1,7 @@
 # knex
 
 document： http://perkframework.com
+video: https://www.youtube.com/watch?v=GbVP4Ac2QAo&list=PL7sCSgsRZ-smPRSrim4bX5TQfRue1jKfw&index=4
 
 ## init knex config file
 
@@ -57,23 +58,7 @@ module.exports = {
 
 ```
 
-## establish the knex.js
 
-> which export the knex instance
-
-```bash
-touch ./db/knex.js
-
-```
-
-```js
-var environment = process.env.NODE_ENV || 'development';
-var config = require('../knexfile')[environment];
-
-console.log(config);
-module.exports = require('knex')(config);
-
-```
 
 ## make our migrations
 
@@ -180,4 +165,60 @@ exports.seed = function(knex, Promise) {
 
 ```bash
 knex seed:run
+```
+
+## establish the knex.js
+
+> which export the knex instance
+
+```bash
+touch ./db/knex.js
+
+```
+
+```js
+// knex.js
+
+var environment = process.env.NODE_ENV || 'development';
+var config = require('../knexfile')[environment];
+
+console.log(config);
+module.exports = require('knex')(config);
+
+```
+
+## establish the server.js
+
+```js
+// server.js
+
+ar express = require('express');
+var bodyParser = require('body-parser');
+var port = process.env.PORT || 8001;
+var knex = require('./db/knex');
+
+var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.listen(port, function() {
+    console.log('listening on port:', port);
+})
+
+```
+
+## establish route
+
+```js
+// server.js
+app.get('/todos', function(req,res) {
+    knex.raw(
+        'SELECT * FROM todos'
+    )
+    .then(function(todos){
+        res.send(todos);
+    })
+})
+
 ```
