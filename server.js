@@ -9,12 +9,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/todos', function(req,res) {
-    knex.raw(
-        'SELECT * FROM todos'
-    )
-    .then(function(todos){
-        res.send(todos);
-    })
+    // knex.raw(
+    //     'SELECT * FROM todos'
+    // )
+    // .then(function(todos){
+    //     res.json(todos[0]);
+    // })
+    knex.select().from('todos')
+        .then(function(todos) {
+            res.send(todos);
+        })
 })
 
 

@@ -213,12 +213,18 @@ app.listen(port, function() {
 ```js
 // server.js
 app.get('/todos', function(req,res) {
-    knex.raw(
-        'SELECT * FROM todos'
-    )
-    .then(function(todos){
-        res.send(todos);
-    })
+    // knex.raw(
+    //     'SELECT * FROM todos'
+    // )
+    // .then(function(todos){
+    //     res.json(todos[0]);
+    // })
+    knex.select().from('todos')
+        .then( function(todos) {
+            res.send(todos);
+        })
 })
+
+//  下面的方式 与上面的方式相比，在于其已经将查询返回的 'todos' 格式处理好了， 我们直接将结果返回给前台就可以了；
 
 ```
