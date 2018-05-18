@@ -277,6 +277,8 @@ app.post('/todos', function(req, res) {
 
 > join is basically when you want more detailed information, the you can get out of a single table by ralating that data to another table.
 
+> If you have a tforeign keyand it tie to another table , You have to join it to bring the information from the other table
+
 ```bash
 SELECT * FROM todos INNER JOIN 
 users ON todos.user_id = users.id
@@ -295,7 +297,7 @@ app.get('/todos-of-user/:id', function(req, res) {
         .then(function(data) {
             res.send(data);
         })
-})
+}) 
 
 ```
 
