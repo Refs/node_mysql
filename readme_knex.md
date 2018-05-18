@@ -273,3 +273,29 @@ app.post('/todos', function(req, res) {
 ### update table's data
 
 
+### join 
+
+> join is basically when you want more detailed information, the you can get out of a single table by ralating that data to another table.
+
+```bash
+SELECT * FROM todos INNER JOIN 
+users ON todos.user_id = users.id
+WHERE todos.user_id =3;
+
+```
+
+```js
+app.get('/todos-of-user/:id', function(req, res) {
+    // knex.raw(
+        // 'SELECT * FROM todos INNER JOIN users ON todos.user_id = users.id WHERE todos.user_id= ?', [req.params.id]
+    // )
+    knex.from('todos')
+        .innerJoin('users', 'todos.user_id', 'users.id')
+        .where('todos_user_id', req.params.id)
+        .then(function(data) {
+            res.send(data);
+        })
+})
+
+```
+

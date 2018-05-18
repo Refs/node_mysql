@@ -71,6 +71,15 @@ app.put('/todos/:id', function(req,res) {
                  })
 })
 
+app.get('/todos-of-user/:id', function(req, res) {
+    knex.from('todos')
+        .innerJoin('users', 'todos.user_id', 'users.id')
+        .where('todos.user_id', req.params.id)
+        .then(function(data) {
+            res.send(data);
+        })
+})
+
 
 app.listen(port, function() {
     console.log('listening on port:', port);
